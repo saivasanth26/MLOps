@@ -144,6 +144,7 @@ ENV/
 env.bak/
 venv.bak/
 data
+creds
 # Spyder project settings
 .spyderproject
 .spyproject
