@@ -1,27 +1,20 @@
-# Use a newer slim base to get modern wheel compatibility
-FROM python:3.11-slim-bullseye
-
-# install system deps required by some Python packages (lightgbm, wordcloud, matplotlib, dvc, etc.)
-RUN apt-get update \
- && apt-get install -y --no-install-recommends \
-    build-essential gcc g++ git curl ca-certificates \
-    libgomp1 libfreetype6-dev libpng-dev libjpeg-dev pkg-config \
-    libssl-dev libffi-dev libxml2-dev libxslt1-dev \
- && rm -rf /var/lib/apt/lists/*
+# Use a recent slim image (avoid old buster repo problems)
+FROM python:3.11-slim
 
 WORKDIR /app
 
-# copy whole repo (requirements at project root)
-COPY . /app
+# Copy only requirements first to use build cache
+COPY requirements.txt /app/requirements.txt
 
-# upgrade pip & install python deps
+# Upgrade pip and install python deps
 RUN python -m pip install --upgrade pip setuptools wheel \
  && pip install --no-cache-dir -r /app/requirements.txt
 
-# ensure your app binds to 0.0.0.0 and the expected port (5001)
-ENV FLASK_RUN_HOST=0.0.0.0
-ENV FLASK_RUN_PORT=5001
+# Copy entire repo (includes flask_app/, model pkls, etc)
+COPY . /app
 
-# make sure we run the correct entrypoint (adjust path if needed)
-# If your entry is flask_app/app.py:
+# Expose the port your app listens on (informational)
+EXPOSE 5001
+
+# Run exactly like you run locally
 CMD ["python3", "flask_app/app.py"]
