@@ -6,7 +6,7 @@ import logging
 import os
 
 # Set up MLflow tracking URI
-mlflow.set_tracking_uri("http://ec2-54-167-108-249.compute-1.amazonaws.com:5000/")
+mlflow.set_tracking_uri("http://ec2-54-167-106-48.compute-1.amazonaws.com:5000/")
 
 
 # logging configuration
@@ -66,8 +66,8 @@ def main():
         model_info_path = 'experiment_info.json'
         model_info = load_model_info(model_info_path)
         
-        # model_name = "yt_chrome_plugin_model"
-        model_name = "my_model"
+        model_name = "yt_chrome_plugin_model"
+        #model_name = "yt_chrome_plugi_my_model"
         register_model(model_name, model_info)
     except Exception as e:
         logger.error('Failed to complete the model registration process: %s', e)

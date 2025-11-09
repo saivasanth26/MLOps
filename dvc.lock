@@ -37,3 +37,71 @@ stages:
       md5: a2bbccdc23dd271231099f8d5c99ff87.dir
       size: 5098055
       nfiles: 2
+  model_building:
+    cmd: python src/model/model_building.py
+    deps:
+    - path: data/interim/train_processed.csv
+      hash: md5
+      md5: 86284f4698366b0f2ee05c211c0e9453
+      size: 4104889
+    - path: src/model/model_building.py
+      hash: md5
+      md5: 7535a489e792c486bd48d008c4e673c4
+      size: 5474
+    params:
+      params.yaml:
+        model_building.learning_rate: 0.09
+        model_building.max_depth: 20
+        model_building.max_features: 1000
+        model_building.n_estimators: 367
+        model_building.ngram_range:
+        - 1
+        - 3
+    outs:
+    - path: lgbm_model.pkl
+      hash: md5
+      md5: 6cb5e50ac6d2c59401b1201401a59a99
+      size: 3904466
+    - path: tfidf_vectorizer.pkl
+      hash: md5
+      md5: 72dce4d28ffbd0128d4852c18d1222c3
+      size: 36873
+  model_evaluation:
+    cmd: python src/model/model_evaluation.py
+    deps:
+    - path: data/interim/test_processed.csv
+      hash: md5
+      md5: 5b260b8114240fb9c541c0d07b150b14
+      size: 993166
+    - path: data/interim/train_processed.csv
+      hash: md5
+      md5: 86284f4698366b0f2ee05c211c0e9453
+      size: 4104889
+    - path: lgbm_model.pkl
+      hash: md5
+      md5: 6cb5e50ac6d2c59401b1201401a59a99
+      size: 3904466
+    - path: src/model/model_evaluation.py
+      hash: md5
+      md5: 101592a746f0666fb38b11a97813a8da
+      size: 7169
+    - path: tfidf_vectorizer.pkl
+      hash: md5
+      md5: 72dce4d28ffbd0128d4852c18d1222c3
+      size: 36873
+    outs:
+    - path: experiment_info.json
+      hash: md5
+      md5: e6add65cf58d2726f6ddd3f1fafe7f27
+      size: 84
+  model_registration:
+    cmd: python src/model/register_model.py
+    deps:
+    - path: experiment_info.json
+      hash: md5
+      md5: e6add65cf58d2726f6ddd3f1fafe7f27
+      size: 84
+    - path: src/model/register_model.py
+      hash: md5
+      md5: 4c4846cd3cec2992d6d8d4f8d5ae9d19
+      size: 2443
