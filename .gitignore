@@ -151,6 +151,7 @@ model_building_errors.log
 model_evaluation_errors.log
 model_registration_errors.log
 preprocessing_errors.log
+awscli-bundle.zip
 # Spyder project settings
 .spyderproject
 .spyproject
