@@ -145,6 +145,12 @@ env.bak/
 venv.bak/
 data
 creds
+errors.log
+experiment_info.json
+model_building_errors.log
+model_evaluation_errors.log
+model_registration_errors.log
+preprocessing_errors.log
 # Spyder project settings
 .spyderproject
 .spyproject
